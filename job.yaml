@@ -1,0 +1,18 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+type: command
+display_name: treino-sorvete-simples
+code: .
+command: >
+  python src/train.py
+  --data_csv ${{inputs.data_csv}}
+  --out_model ${{outputs.model}}
+environment: azureml:sklearn-1.5@latest   # << usa o curado que existe aí
+inputs:
+  data_csv:
+    type: uri_file
+    path: ./data/Tabela.csv
+outputs:
+  model:
+    type: mlflow_model
+    mode: upload
+compute: azureml:washingtonying1              # troque pelo seu compute real
